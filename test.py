@@ -4,18 +4,24 @@ import matplotlib.pyplot as plt
 
 from neuron import h
 
-soma = h.Section()
+import genrn
+
+h.celsius = 21
+
+mechs = {'a1p7': {} 'b1p7': {} 'c1p7', 'a1p8', 'b1p8', 'c1p8']
+soma = genrn( h=h, mechs = )
+
 
 chans = {'nav1.7': ['a1p7', 'b1p7', 'c1p7'], 'nav1.8': ['a1p8', 'b1p8', 'c1p8']}
 traces = ['minf', 'mtau', 'hinf', 'htau']
 data = {}
 
 for nav in chans:
-    chan = chans[nav]
-    data[chan] = {}
-    for plot in plots:
-        data[chan][plot] = []
-    soma.insert(chan)
+    for chan in chans[nav]:
+        data[chan] = {}
+        for trace in traces:
+            data[chan][trace] = []
+        soma.insert(chan)
 
 
 vs = np.linspace(-70,30,100)
@@ -53,8 +59,8 @@ for v in vs:
 
 for trace in traces:
     for nav in chans:
-        chan = chans[nav]
-            plt.title(nav + " " + trace )
-            plt.plot(vs, data[chan][plot], label=chan)
+        plt.title(nav + " " + trace)
+        for chan in chans[nav]:
+            plt.plot(vs, data[chan][trace], label=chan)
         plt.legend()
         plt.show()
