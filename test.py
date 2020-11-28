@@ -6,11 +6,12 @@ from neuron import h
 
 soma = h.Section()
 
-chans = ['a1p7', 'a1p8', 'b1p7', 'b1p8', 'c1p7', 'c1p8']
-plots = ['minf', 'mtau', 'hinf', 'htau']
+chans = {'nav1.7': ['a1p7', 'b1p7', 'c1p7'], 'nav1.8': ['a1p8', 'b1p8', 'c1p8']}
+traces = ['minf', 'mtau', 'hinf', 'htau']
 data = {}
 
-for chan in chans:
+for nav in chans:
+    chan = chans[nav]
     data[chan] = {}
     for plot in plots:
         data[chan][plot] = []
@@ -50,9 +51,10 @@ for v in vs:
     data['c1p8']['hinf'].append(soma(0.5).c1p8.hinf)
     data['c1p8']['htau'].append(soma(0.5).c1p8.tau_h)
 
-for plot in plots:
-    plt.title(plot)
-    for chan in chans:
-        plt.plot(vs, data[chan][plot], label=chan)
-    plt.legend()
-    plt.show()
+for trace in traces:
+    for nav in chans:
+        chan = chans[nav]
+            plt.title(nav + " " + trace )
+            plt.plot(vs, data[chan][plot], label=chan)
+        plt.legend()
+        plt.show()
